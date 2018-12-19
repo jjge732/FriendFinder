@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && npm run build-babel",
-    "start": "npm run build && node ./build/server.js"
+    "start": "npx babel server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,10 +20,5 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.0",
     "@babel/register": "^7.0.0"
-  },
-  "clean": "rm -rf build && mkdir build",
-  "build": {
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d .build ./ -s"
   }
 }
