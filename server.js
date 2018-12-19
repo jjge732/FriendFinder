@@ -1,31 +1,22 @@
-require('babel-core').transform('code', options);
+// require("@babel/register");
 
-const path = require('path');
-const mysql = require('mysql');
+// const babel = require("@babel/core");
+
+// babel.transform("code", optionsObject);
+
 const express = require('express');
 const app = express();
-const htmlRoutes = require('./app/routing/htmlRoutes.js');
-const apiRoutes = require('./app/routing/apiRoutes.js');
-const friends = require('./app/data/friends.js')
+const friends = require('./app/data/friends.js');
 
 const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('app/public'));
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    port : 3307,
-    user: 'root',
-    password: 'root',
-    database: 'friend_finder'
-});
+require('./app/routing/apiRoutes')(app);
+require('./app/routing/htmlRoutes')(app);
 
-connection.connect(err => {
-    if (err) throw err;
-    console.log('connected as id ' + connection.threadId + '\n');
-});
-
-app.listen(PORT, function() {
+app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
 });

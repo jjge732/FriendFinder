@@ -13,22 +13,22 @@
     <h1>
         Answer the following questions to be matched with friends!
     </h1>
-    <form action="">
+    <form action='/api/friends/' method='POST'>
         <ol>
-            <li><h2>What is your name?</h2><input id='name'></li>
-            <li><h2>Please upload a photo of yourself</h2><input id='photo'></li>
-            <li><h2>Question 1</h2><input class='surveyQuestion' id='question1'required type="number"></li>
-            <li><h2>Question 2</h2><input class='surveyQuestion' id='question2'required type="number"></li>
-            <li><h2>Question 3</h2><input class='surveyQuestion' id='question3'required type="number"></li>
-            <li><h2>Question 4</h2><input class='surveyQuestion' id='question4'required type="number"></li>
-            <li><h2>Question 5</h2><input class='surveyQuestion' id='question5'required type="number"></li>
-            <li><h2>Question 6</h2><input class='surveyQuestion' id='question6'required type="number"></li>
-            <li><h2>Question 7</h2><input class='surveyQuestion' id='question7'required type="number"></li>
-            <li><h2>Question 8</h2><input class='surveyQuestion' id='question8'required type="number"></li>
-            <li><h2>Question 9</h2><input class='surveyQuestion' id='question9'required type="number"></li>
-            <li><h2>Question 10</h2><input class='surveyQuestion' id='question10'required type="number"></li>
+            <li><h2>What is your name?</h2><input name='name' id='name'></li>
+            <!-- <li><h2>Please upload a photo of yourself</h2><input name='photo' id='photo'></li> -->
+            <li><h2>Question 1</h2><input name='score1' class='surveyQuestion' id='question1'required type="number"></li>
+            <li><h2>Question 2</h2><input name='score2' class='surveyQuestion' id='question2'required type="number"></li>
+            <li><h2>Question 3</h2><input name='score3' class='surveyQuestion' id='question3'required type="number"></li>
+            <li><h2>Question 4</h2><input name='score4' class='surveyQuestion' id='question4'required type="number"></li>
+            <li><h2>Question 5</h2><input name='score5' class='surveyQuestion' id='question5'required type="number"></li>
+            <li><h2>Question 6</h2><input name='score6' class='surveyQuestion' id='question6'required type="number"></li>
+            <li><h2>Question 7</h2><input name='score7' class='surveyQuestion' id='question7'required type="number"></li>
+            <li><h2>Question 8</h2><input name='score8' class='surveyQuestion' id='question8'required type="number"></li>
+            <li><h2>Question 9</h2><input name='score9' class='surveyQuestion' id='question9'required type="number"></li>
+            <li><h2>Question 10</h2><input name='score10' class='surveyQuestion' id='question10'required type="number"></li>
         </ol>
-        <button>
+        <button type='submit'>
             Submit
         </button>
     </form>
