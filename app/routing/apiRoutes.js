@@ -1,5 +1,7 @@
 require("@babel/register");
 const mysql = require('mysql');
+const path = require('path');
+const fs = require('fs');
 
 let connection;
 if (process.env.JAWSDB_URL) {
@@ -15,10 +17,10 @@ if (process.env.JAWSDB_URL) {
 };
 
 class PossibleFriend {
-    constructor(id, name) {
+    constructor(id, name, photo) {
         this.id = id;
         this.name = name;
-        // this.photo = photo;
+        this.photo = photo;
         this.scores = [];
     }
     populateScores(scores) {
@@ -36,7 +38,7 @@ const getFriendData = () => {
         if (err) throw err;
         possibleFriends = [];
         for (let i = 0; i < res.length; i++) {
-            possibleFriends.push(new PossibleFriend(res[i].id, res[i].name));
+            possibleFriends.push(new PossibleFriend(res[i].id, res[i].name, res[i].photo));
             possibleFriends[i].populateScores(res[i]);
         }
     });
@@ -83,7 +85,15 @@ module.exports = app => {
     });
 
     app.post('/api/friends/', (req, res) => {
-        connection.query('INSERT INTO friend_information (name) VALUES (?)', [req.body.name], (err, res) => {
+        console.log(req.body);
+        console.log(req.files.photo);
+        // req.files.photo.mv(path.join(__dirname, `/../data/images/${req.files.photo.name}`),err => {
+        //     if (err) throw err;
+        // });
+        fs.writeFileSync('app/images/' + req.files.photo.name, req.files.photo.data, err => {
+            if (err) throw err;
+        });
+        connection.query('INSERT INTO friend_information (name, photo) VALUES (?, ?)', [req.body.name, req.files.photo.name], (err, res) => {
             if (err) throw err;
         });
         let scoreNbrArr = [];
@@ -99,8 +109,9 @@ module.exports = app => {
             if (err) throw err;
         });
         let length = possibleFriends.length + 1;
-        possibleFriends.push(new PossibleFriend(length, req.body.name));
+        possibleFriends.push(new PossibleFriend(length, req.body.name, req.files.photo.name));
         possibleFriends[length - 1].populateScores(req.body);
-        res.json(findFriend());
+        res.redirect('/');
+        // res.send(`<img height=100% width=100% alt='profilePic' src='app/images/${req.body.photo}'></img>`);
     });
 }

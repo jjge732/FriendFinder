@@ -1,12 +1,13 @@
-let newSurvey = {
-    name: $('#name').val(),
-    photo: $('#photo').val(),
-    scores: []
-};
+// let newSurvey = {
+//     name: $('#name').val(),
+//     photo: $('#photo').val(),
+//     scores: []
+// };
 
-for (let i = 1; i <= questionNumber; i++) {
-    newSurvey.scores.push(parseFloat($(`.surveyQuestion #question${i}`).val()));
-};
+// for (let i = 1; i <= questionNumber; i++) {
+//     newSurvey.scores.push(parseFloat($(`.surveyQuestion #question${i}`).val()));
+// };
 
-//fix this
-$.post('/api/friends', newSurvey);
+const popUp = () => {
+    console.log(document.getElementById('photo').value);
+}
