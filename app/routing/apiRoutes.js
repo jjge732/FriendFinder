@@ -34,6 +34,7 @@ let possibleFriends = [];
 const getFriendData = () => {
     connection.query('SELECT * FROM friend_scores LEFT JOIN friend_information ON friend_information.id = friend_scores.id', (err, res) => {
         if (err) throw err;
+        possibleFriends = [];
         for (let i = 0; i < res.length; i++) {
             possibleFriends.push(new PossibleFriend(res[i].id, res[i].name));
             possibleFriends[i].populateScores(res[i]);
@@ -48,6 +49,35 @@ connection.connect(err => {
 });
 
 module.exports = app => {
+    const findFriend = () => {
+        getFriendData();
+        let differences = [];
+        possibleFriends = possibleFriends.reverse();
+            for (let j = 0; j < possibleFriends.length; j++) {
+                let indivDifferences = 0;
+                for (let i = 0; i < possibleFriends[j].scores.length; i++) {
+                    indivDifferences += possibleFriends[0].scores[i] - possibleFriends[j].scores[i];
+                }
+            differences.push(indivDifferences);
+        }
+        differences.shift();
+        differences = differences.reverse();
+        let leastDifference =  {
+            id: 0,
+            index: -1,
+            nbrOfDifferences: 100
+        };
+        for (let i = 1; i < differences.length; i++) {
+            if (differences[i] < leastDifference.nbrOfDifferences) {
+                leastDifference.id = i - 1;
+                leastDifference.index = i;
+                leastDifference.nbrOfDifferences = differences[i];
+            }
+        }
+        console.log(leastDifference.id);
+        return leastDifference.id;
+    }
+
     app.get('/api/friends/', (req, res) => {
         res.json(possibleFriends);
     });
@@ -65,15 +95,12 @@ module.exports = app => {
                 scoresAsString += ', ';
             };
         }
-        console.log([scoreNbrArr.toString().replace(/,/g, ', '), scoresAsString]);
-
         connection.query(`INSERT INTO friend_scores (${scoreNbrArr.toString().replace(/,/g, ', ')}) VALUES (${scoresAsString})`, (err, res) => {
             if (err) throw err;
         });
-
         let length = possibleFriends.length + 1;
         possibleFriends.push(new PossibleFriend(length, req.body.name));
         possibleFriends[length - 1].populateScores(req.body);
-        res.redirect('/api/friends/');
+        res.json(findFriend());
     });
 }
