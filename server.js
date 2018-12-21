@@ -1,8 +1,10 @@
-// require("@babel/register");
+// require("@babel/register")({
+//     rootMode: "upward"
+// });
 
-const babel = require("@babel/core");
+// const babel = require("@babel/core");
 
-babel.transform("code");
+// babel.transformFileSync("code");
 
 const express = require('express');
 const fileUpload = require('express-fileupload');
