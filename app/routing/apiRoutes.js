@@ -51,6 +51,22 @@ connection.connect(err => {
 });
 
 module.exports = app => {
+    const getFriend = (response, friendIndex) => {
+        connection.query('SELECT * FROM friend_information WHERE id = ?;', [friendIndex], (err, res) => {
+            if (err) throw err;
+            
+            console.log(friendIndex);
+            console.log(res[0].photo); 
+            console.log(res);
+            app.locals.name = res[0].name
+            // app.locals.photo = path.join(__dirname, '../views/images/', res[0].photo);
+            console.log(app.locals.photo);
+            //https://www.quackit.com/javascript/javascript_refresh_page.cfm
+            // document.location.reload(true);
+            // response.render('survey', {photoName: ('./app/views/images/' + res[0].photo)});
+            response.redirect('/survey');
+        });
+    }
     const findFriend = () => {
         getFriendData();
         let differences = [];
@@ -76,21 +92,30 @@ module.exports = app => {
                 leastDifference.nbrOfDifferences = differences[i];
             }
         }
-        console.log(leastDifference.id);
-        return leastDifference.id;
+        return leastDifference.index;
     }
 
     app.get('/api/friends/', (req, res) => {
         res.json(possibleFriends);
     });
 
+    app.get(`/api/friends/:friendName`, (req, res) => {
+        console.log(possibleFriends);
+        for (let i = 0; i < possibleFriends.length; i++) {
+            console.log(req.params.friendName);
+            console.log(possibleFriends[i].name);
+            if (req.params.friendName.toLowerCase() == possibleFriends[i].name.toLowerCase()) {
+                console.log('confirm');
+                let options = {
+                    root: __dirname + '/app/views/'
+                }
+                res.sendFile(path.join(__dirname + '/../views/images/' + possibleFriends[i].photo));
+            }
+        }
+    })
+
     app.post('/api/friends/', (req, res) => {
-        console.log(req.body);
-        console.log(req.files.photo);
-        // req.files.photo.mv(path.join(__dirname, `/../data/images/${req.files.photo.name}`),err => {
-        //     if (err) throw err;
-        // });
-        fs.writeFileSync('app/images/' + req.files.photo.name, req.files.photo.data, err => {
+        fs.writeFileSync('./app/views/images/' + req.files.photo.name, req.files.photo.data, err => {
             if (err) throw err;
         });
         connection.query('INSERT INTO friend_information (name, photo) VALUES (?, ?)', [req.body.name, req.files.photo.name], (err, res) => {
@@ -111,7 +136,6 @@ module.exports = app => {
         let length = possibleFriends.length + 1;
         possibleFriends.push(new PossibleFriend(length, req.body.name, req.files.photo.name));
         possibleFriends[length - 1].populateScores(req.body);
-        res.redirect('/');
-        // res.send(`<img height=100% width=100% alt='profilePic' src='app/images/${req.body.photo}'></img>`);
+        getFriend(res, findFriend());
     });
 }

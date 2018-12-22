@@ -7,10 +7,11 @@
     <title>Survey</title>
     <link rel='stylesheet' href='reset.css'>
     <link rel='stylesheet' href='style.css'>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>
-        Answer the following questions to be matched with friends!
+        Answer the following questions to be matched with a friend!
     </h1>
     <form ref='uploadForm' encType='multipart/form-data' action='/api/friends/' method='POST'>
         <ol>
@@ -27,10 +28,14 @@
             <li><h2>Question 9</h2><input name='score9' required type="number"></li>
             <li><h2>Question 10</h2><input name='score10' required type="number"></li>
         </ol>
-        <button type='submit' onclick='popUp()'>
+        <button type='submit' onclick='popUp(event)'>
             Submit
         </button>
     </form>
+    <div id='modal'>
+
+    </div>
     <script src='survey.js'></script>
+    <script></script>
 </body>
 </html>

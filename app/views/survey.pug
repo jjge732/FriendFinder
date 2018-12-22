@@ -1,0 +1,62 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset='UTF-8')
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+        title Survey
+        //- https://github.com/pugjs/pug/issues/1626
+        //- include ./images
+        //- if photoName
+        //-     include photoName || images/image.png
+        style
+            include ./stylesheets/reset.css
+            include ./stylesheets/style.css
+        //- script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
+    body
+        h1 Answer the following questions to be matched with a friend!
+    form(ref='uploadForm' encType='multipart/form-data' action='/api/friends/' method='POST')
+        ol 
+            li
+                h2 What is your name?
+                    input(name='name' required)
+            li
+                h2 Please upload a photo of yourself
+                    input(id='photo' name='photo' required type='file' accept='image/*,.pdf')
+            li
+                h2 Question 1
+                    input(name='score1' required type="number")
+            li
+                h2 Question 2
+                    input(name='score2' required type="number")
+            li
+                h2 Question 3
+                    input(name='score3' required type="number")
+            li
+                h2 Question 4
+                    input(name='score4' required type="number")
+            li
+                h2 Question 5
+                    input(name='score5' required type="number")
+            li
+                h2 Question 6
+                    input(name='score6' required type="number")
+            li
+                h2 Question 7
+                    input(name='score7' required type="number")
+            li
+                h2 Question 8
+                    input(name='score8' required type="number")
+            li
+                h2 Question 9
+                    input(name='score9' required type="number")
+            li
+                h2 Question 10
+                    input(name='score10' required type="number")
+        button(type='submit' onclick='popUp(event)') Submit
+    #modal
+        if friendName != null
+            h3= friendName
+            img(src=('/api/friends/' + friendName) alt='image')
+    //- script
+    //-     include ./survey.js
