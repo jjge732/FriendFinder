@@ -54,16 +54,7 @@ module.exports = app => {
     const getFriend = (response, friendIndex) => {
         connection.query('SELECT * FROM friend_information WHERE id = ?;', [friendIndex], (err, res) => {
             if (err) throw err;
-            
-            console.log(friendIndex);
-            console.log(res[0].photo); 
-            console.log(res);
             app.locals.name = res[0].name
-            // app.locals.photo = path.join(__dirname, '../views/images/', res[0].photo);
-            console.log(app.locals.photo);
-            //https://www.quackit.com/javascript/javascript_refresh_page.cfm
-            // document.location.reload(true);
-            // response.render('survey', {photoName: ('./app/views/images/' + res[0].photo)});
             response.redirect('/survey');
         });
     }
@@ -74,7 +65,7 @@ module.exports = app => {
             for (let j = 0; j < possibleFriends.length; j++) {
                 let indivDifferences = 0;
                 for (let i = 0; i < possibleFriends[j].scores.length; i++) {
-                    indivDifferences += possibleFriends[0].scores[i] - possibleFriends[j].scores[i];
+                    indivDifferences += Math.abs(possibleFriends[0].scores[i] - possibleFriends[j].scores[i]);
                 }
             differences.push(indivDifferences);
         }
@@ -100,10 +91,7 @@ module.exports = app => {
     });
 
     app.get(`/api/friends/:friendName`, (req, res) => {
-        console.log(possibleFriends);
         for (let i = 0; i < possibleFriends.length; i++) {
-            console.log(req.params.friendName);
-            console.log(possibleFriends[i].name);
             if (req.params.friendName.toLowerCase() == possibleFriends[i].name.toLowerCase()) {
                 console.log('confirm');
                 let options = {
