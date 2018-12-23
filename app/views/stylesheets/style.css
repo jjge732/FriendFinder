@@ -36,7 +36,7 @@ body {
 
 .circle {
     width: 320px;
-    height: 320px;
+    height: auto;
     justify-self: center;
 }
 
