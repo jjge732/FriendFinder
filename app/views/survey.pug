@@ -27,40 +27,40 @@ html(lang="en")
                         p.deep-orange-text.accent-3.text-lighten-2#sub-text 1 (on the left) represents something not important
                         p.deep-orange-text.accent-3.text-lighten-2#sub-text 5 (on the right) represents something very important
                     li
-                        p.range-field Question 1
+                        p.range-field Personal Fitness
                             input.cyan-text(name='score1' type="range" min='1' max='5')
                     li
-                        p.range-field Question 2
+                        p.range-field Sports
                             input(name='score2' type="range" min='1' max='5')
                     li
-                        p.range-field Question 3
+                        p.range-field Professional Goals
                             input(name='score3' type="range" min='1' max='5')
                     li
-                        p.range-field Question 4
+                        p.range-field Patience
                             input(name='score4' type="range" min='1' max='5')
                     li
-                        p.range-field Question 5
+                        p.range-field Optimism
                             input(name='score5' type="range" min='1' max='5')
                     li
-                        p.range-field Question 6
+                        p.range-field Religion
                             input(name='score6' type="range" min='1' max='5')
                     li
-                        p.range-field Question 7
+                        p.range-field Social Life
                             input(name='score7' type="range" min='1' max='5')
                     li
-                        p.range-field Question 8
+                        p.range-field Privacy
                             input(name='score8' type="range" min='1' max='5')
                     li
-                        p.range-field Question 9
+                        p.range-field Travel
                             input(name='score9' type="range" min='1' max='5')
                     li
-                        p.range-field Question 10
+                        p.range-field Empathy
                             input(name='score10' type="range" min='1' max='5')
                 button.btn-large.waves-effect.waves-light.pulse.z-depth-4.cyan(type='submit') Send
         if friendName != null
-            #modal-container.deep-orange-text.text-lighten-1.z-depth-5.red.lighten-4
-                #modal
-                    h3= friendName
+            #modal-container
+                #modal.grey-text.text-lighten-1.z-depth-5.blue-grey.darken-2
+                    h3 Meet your new friend, #{friendName}!
                     img.circle(src=('/api/friends/' + friendName) alt='image')
     script
         include ./javascript/materialize.min.js

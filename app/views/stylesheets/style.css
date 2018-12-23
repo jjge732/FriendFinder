@@ -37,6 +37,7 @@ body {
 .circle {
     width: 320px;
     height: 320px;
+    justify-self: center;
 }
 
 #modal-container {
@@ -46,8 +47,12 @@ body {
 }
 
 #modal {
+    margin-left: 25%;
+    margin-right: 25%;
+    width: 50%;
     display: grid;
-    justify-content: center;
     text-align: center;
     padding-bottom: 25px;
+    border-radius: 40px;
+
 }
