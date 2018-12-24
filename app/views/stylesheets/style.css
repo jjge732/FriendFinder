@@ -56,3 +56,8 @@ body {
     border-radius: 40px;
 
 }
+
+#center {
+    display: grid;
+    justify-content: center;
+}
