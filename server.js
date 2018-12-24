@@ -9,9 +9,9 @@ const pug = require('pug');
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const app = express();
-// const friends = require('./app/data/friends.js');
 
 const PORT = process.env.PORT || 3000;
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

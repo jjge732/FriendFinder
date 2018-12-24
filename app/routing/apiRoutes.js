@@ -1,7 +1,18 @@
 require("@babel/register");
+require('dotenv');
 const mysql = require('mysql');
 const path = require('path');
 const fs = require('fs');
+const AWS = require('aws-sdk');
+
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
+
+let s3 = new AWS.S3();
+
 
 let connection;
 if (process.env.JAWSDB_URL) {
@@ -103,9 +114,23 @@ module.exports = app => {
     })
 
     app.post('/api/friends/', (req, res) => {
-        fs.writeFileSync('./app/views/images/' + req.files.photo.name, req.files.photo.data, err => {
+        let filePath = './app/views/images/' + req.files.photo.name;
+        fs.writeFileSync(filePath, req.files.photo.data, err => {
             if (err) throw err;
         });
+        console.log(process.env.S3_BUCKET_NAME)
+        const params = {
+            Bucket: process.env.S3_BUCKET_NAME,
+            Body: fs.createReadStream(filePath),
+            Key: 'folder/'+Date.now()+'_'+path.basename(filePath)
+        }
+        s3.upload(params, (err, data) => {
+            if (err) throw err;
+            if (data) {
+                console.log('Uploaded in:', data.location);
+            }
+        })
+        
         connection.query('INSERT INTO friend_information (name, photo) VALUES (?, ?)', [req.body.name, req.files.photo.name], (err, res) => {
             if (err) throw err;
         });
